@@ -30,7 +30,7 @@ cp ${APP_DIR}/scripts/docker-stop.sh ${DIST_DOCKER_DIR}
 
 cd ${DIST_DOCKER_DIR}
 echo `pwd`
-zip -qr noderest.zip Dockerfile package.json index.js lib
-mv noderest.zip ..
+zip -qr noderest-docker.zip Dockerfile package.json index.js lib
+mv noderest-docker.zip ..
 
 echo -e "\n *** Done!" && exit 0

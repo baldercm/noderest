@@ -31,8 +31,9 @@
     "prestartdev": "npm test",
     "startdev": "node index.js",
     "dev": "node_modules/.bin/nodemon --exec 'npm run startdev'",
-    "docker-build": "scripts/docker-build.sh",
-    "aws-build": "scripts/docker-build.sh aws"
+    "prebuild-docker": "npm test",
+    "build-docker": "scripts/docker-build.sh",
+    "build-aws": "npm run build-docker -- aws"
   },
   "author": {
     "name": "Bálder Carraté",
