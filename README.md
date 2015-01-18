@@ -10,6 +10,7 @@ NodeJS simple prototype for REST like backend using:
 * [Software Requirements](#software-requirements)
 * [Basic Usage](#basic-usage)
 * [Docker](#docker)
+* [REST API](#rest-api)
 
 ## Software Requirements
 
@@ -68,3 +69,21 @@ You can access the webapp pointing your browser or REST client to
 To stop and remove all Docker containers and images use
 
     dist/docker/docker-stop.sh
+
+## REST API
+
+All the resource URIs consumes and produces `application/json`.
+
+* `GET  http://localhost:8080/contacts` find all the existing contacts
+* `GET  http://localhost:8080/contacts/:id` find contact by id
+* `POST http://localhost:8080/contacs` creates a new contact
+  -  JSON Body:
+
+      ```json
+      {
+        "name": "Name",
+        "age": "1"
+      }
+      ```
+
+
