@@ -1,5 +1,5 @@
 # NodeRest
-[![Build Status](https://travis-ci.org/baldercm/noderest.svg)](https://travis-ci.org/baldercm/noderest)
+[![Build Status](https://travis-ci.org/balder-otium360/noderest.svg?branch=master)](https://travis-ci.org/balder-otium360/noderest)
 
 NodeJS simple prototype for REST like backend using:
 + Express
