@@ -1,0 +1,43 @@
+{
+  "name": "noderest",
+  "version": "0.0.1",
+  "description": "NodeJS REST backend PoC",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.10.0",
+    "coffee-script": "^1.8.0",
+    "express": "^4.11.0",
+    "mongoose": "^3.8.0",
+    "morgan": "^1.5.0",
+    "q": "^1.1.0",
+    "underscore": "^1.7.0",
+    "winston": "^0.8.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "chai-as-promised": "^4.1.0",
+    "jshint": "^2.5.0",
+    "mocha": "^2.1.0",
+    "nodemon": "^1.2.1",
+    "proxyquire": "^1.3.0",
+    "sinon": "^1.12.0",
+    "sinon-chai": "^2.6.0"
+  },
+  "scripts": {
+    "jshint": "node_modules/.bin/jshint ./lib ./test",
+    "pretest": "npm run jshint && rm -f noderest-test.log",
+    "test": "node_modules/.bin/mocha",
+    "start": "node index.js",
+    "prestartdev": "npm test",
+    "startdev": "node index.js",
+    "dev": "node_modules/.bin/nodemon --exec 'npm run startdev'",
+    "docker-build": "scripts/docker-build.sh",
+    "aws-build": "scripts/docker-build.sh aws"
+  },
+  "author": {
+    "name": "Bálder Carraté",
+    "email": "balder.carrate@otium360.com"
+  },
+  "license": "MIT",
+  "private": true
+}

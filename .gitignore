@@ -1,0 +1,9 @@
+dist/
+node_modules/
+*.log
+
+# WebStorm
+.idea/
+
+# Sublime
+*.sublime-workspace
