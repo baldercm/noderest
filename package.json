@@ -16,6 +16,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-as-promised": "^4.1.0",
+    "istanbul": "^0.3.0",
     "jshint": "^2.5.0",
     "mocha": "^2.1.0",
     "nodemon": "^1.2.1",
@@ -24,13 +25,18 @@
     "sinon-chai": "^2.6.0"
   },
   "scripts": {
-    "jshint": "node_modules/.bin/jshint ./lib ./test",
-    "pretest": "npm run jshint && rm -f noderest-test.log",
-    "test": "node_modules/.bin/mocha",
+    "clean": "rm -Rf coverage dist",
+    "jshint": "jshint ./lib ./test",
+    "pretest": "npm run clean && npm run jshint",
+    "test": "mocha",
+    "pretest-travis": "npm run pretest",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly --include-all-sources -x **/dist/**",
+    "pretest-cov": "npm run pretest",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --include-all-sources -x **/dist/**",
     "start": "node index.js",
     "prestartdev": "npm test",
     "startdev": "node index.js",
-    "dev": "node_modules/.bin/nodemon --exec 'npm run startdev'",
+    "dev": "nodemon --exec 'npm run startdev'",
     "prebuild-docker": "npm test",
     "build-docker": "scripts/docker-build.sh",
     "build-aws": "npm run build-docker -- aws"
