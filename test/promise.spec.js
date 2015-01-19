@@ -1,5 +1,3 @@
-require('coffee-script/register')
-
 var
   Q = require('q'),
   chai = require('chai'),
