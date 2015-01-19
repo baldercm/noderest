@@ -16,7 +16,7 @@ describe('Promise', function() {
   })
 
   it('should resolve', function() {
-    return expect(promise).to.eventually.equal('promised value')
+    return expect(promise).to.become('promised value')
   })
 
 })
