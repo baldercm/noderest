@@ -1,3 +1,5 @@
+'use strict'
+
 var winston = require('winston')
 var logger = require('../../lib/loggerConfig').logger
 
