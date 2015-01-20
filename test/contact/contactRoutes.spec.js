@@ -2,47 +2,55 @@
 
 var chai = require('chai')
 var expect = chai.expect
+var sinon = require('sinon')
+var sinonChai = require('sinon-chai')
+chai.use(sinonChai)
 var proxyquire = require('proxyquire')
-var expressHelper = require('../helpers/expressHelper')
+var express = { }
 var contactApi = { }
 var contactRoutes = proxyquire('../../lib/contact/contactRoutes', {
+  'express': express,
   './contactApi': contactApi
 })
 
 describe('Contact Routes', function() {
+  var app = {}
+  var router = {}
+
+  beforeEach(function() {
+    express.Router = sinon.stub().returns(router)
+
+    router.get = sinon.spy()
+    router.post = sinon.spy()
+
+    contactApi.save = sinon.spy()
+    contactApi.findById = sinon.spy()
+    contactApi.findAll = sinon.spy()
+
+    app.use = sinon.spy()
+
+    contactRoutes(app)
+  })
+
   describe('POST /contacts', function() {
-    beforeEach(function() {
-      contactApi.save = 'saveHandler'
-
-      contactRoutes(expressHelper)
-    })
-
-    it('should define url and handler', function() {
-      expect(expressHelper.post).to.have.been.calledWith('/contacts', 'saveHandler')
+    it('should define route', function() {
+      expect(router.post).to.have.been.calledWith('/contacts', contactApi.save)
     })
   })
 
   describe('GET /contacts/:id', function() {
-    beforeEach(function() {
-      contactApi.findById = 'findOneHandler'
-
-      contactRoutes(expressHelper)
-    })
-
-    it('should define url and handler', function() {
-      expect(expressHelper.get).to.have.been.calledWith('/contacts/:id', 'findOneHandler')
+    it('should define route', function() {
+      expect(router.get).to.have.been.calledWith('/contacts/:id', contactApi.findById)
     })
   })
 
   describe('GET /contacts', function() {
-    beforeEach(function() {
-      contactApi.findAll = 'findAllHandler'
-
-      contactRoutes(expressHelper)
+    it('should define route', function() {
+      expect(router.get).to.have.been.calledWith('/contacts', contactApi.findAll)
     })
+  })
 
-    it('should define url and handler', function() {
-      expect(expressHelper.get).to.have.been.calledWith('/contacts', 'findAllHandler')
-    })
+  it('should invoke use(router)', function() {
+    expect(app.use).to.have.been.calledWith(router)
   })
 })
