@@ -17,7 +17,7 @@ chai.use(chaiAsPromised)
 describe('Contact API', function() {
 
   describe('save', function() {
-    var req, res, next, contact, Contact
+    var req, res, next, contact
 
     beforeEach(function() {
       req = {
@@ -28,7 +28,7 @@ describe('Contact API', function() {
         save: sinon.stub()
       }
 
-      Contact = contactModel.Contact = sinon.stub().returns(contact)
+      contactModel.Contact = sinon.stub().returns(contact)
 
       res = {
         status: sinon.stub().returnsThis(),
@@ -48,7 +48,7 @@ describe('Contact API', function() {
       expect(contact.save).to.have.been.called
     })
 
-    describe('on save success', function() {
+    describe('on success', function() {
       beforeEach(function() {
         contact.save.yield(false, { _id: 'contactId' })
       })
@@ -66,7 +66,7 @@ describe('Contact API', function() {
       })
     })
 
-    describe('on save error', function() {
+    describe('on error', function() {
       beforeEach(function() {
         contact.save.yield('save contact error', { })
       })
@@ -109,7 +109,7 @@ describe('Contact API', function() {
       expect(findById).to.have.been.called
     })
 
-    describe('on findById success', function() {
+    describe('on success', function() {
       beforeEach(function() {
         findById.yield(false, 'contact')
       })
@@ -127,7 +127,7 @@ describe('Contact API', function() {
       })
     })
 
-    describe('on findById error', function() {
+    describe('on error', function() {
       beforeEach(function() {
         findById.yield('findById contact error', { })
       })
@@ -168,7 +168,7 @@ describe('Contact API', function() {
       expect(find).to.have.been.called
     })
 
-    describe('on find success', function() {
+    describe('on success', function() {
       beforeEach(function() {
         find.yield(false, 'contacts')
       })
@@ -186,7 +186,7 @@ describe('Contact API', function() {
       })
     })
 
-    describe('on find error', function() {
+    describe('on error', function() {
       beforeEach(function() {
         find.yield('find contacts error', { })
       })
