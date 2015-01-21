@@ -37,7 +37,7 @@
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --include-all-sources -x **/dist/**",
     "start": "node index.js",
     "prestartdev": "npm test",
-    "startdev": "node index.js",
+    "startdev": "NODE_ENV=dev node index.js",
     "dev": "nodemon --exec 'npm run startdev'",
     "prebuild-docker": "npm test",
     "build-docker": "scripts/docker-build.sh",

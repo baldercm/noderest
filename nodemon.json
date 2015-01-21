@@ -1,0 +1,14 @@
+{
+  "ext": "js coffee",
+  "watch": [
+    "index.js",
+    "lib",
+    "test"
+  ],
+  "ignore": [
+    ".git",
+    "node_modules",
+    "dist",
+    "coverage"
+  ]
+}
