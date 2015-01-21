@@ -1,9 +1,10 @@
 winston = require 'winston'
+config  = require './config'
 
 logger = new winston.Logger(
   transports: [
     new winston.transports.File(
-      level: 'info'
+      level: 'debug'
       filename: 'noderest.log'
       handleExceptions: true
       json: true
@@ -12,17 +13,34 @@ logger = new winston.Logger(
       colorize: false
     )
     new winston.transports.Console(
-      level: 'debug'
+      level: config.consoleLogLevel
       colorize: true
       handleExceptions: true
     )
   ]
 )
 
-stream =
+debugStream =
+  writes: (message) ->
+    logger.debug(message)
+    return
+
+infoStream =
   write: (message) ->
     logger.info(message)
     return
 
+warnStream =
+  write: (message) ->
+    logger.warn(message)
+    return
+
+errorStream =
+  write: (message) ->
+    logger.error(message)
+    return
+
 module.exports.logger = logger
-module.exports.stream = stream
+module.exports.infoStream = infoStream
+module.exports.debugStream = debugStream
+module.exports.errorStream = errorStream

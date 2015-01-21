@@ -1,19 +1,8 @@
-var loggerConfig, mongooseConfig, expressConfig, app, morgan
+'use strict'
 
 require('coffee-script/register')
 
-require('./lib/config')
+var noderest = require('./lib/core')
 
-loggerConfig = require('./lib/loggerConfig')
-
-mongooseConfig = require('./lib/mongooseConfig')
-mongooseConfig.bootstrap()
-
-expressConfig = require('./lib/expressConfig')
-expressConfig.bootstrap()
-app = expressConfig.app
-
-morgan = require('morgan')
-app.use(morgan('dev', {
-  'stream': loggerConfig.stream
-}))
+noderest.database.bootstrap()
+noderest.app.bootstrap()
