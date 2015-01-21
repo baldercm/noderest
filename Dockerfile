@@ -11,6 +11,8 @@ ADD package.json /app/
 RUN npm install
 ADD . /app
 
+ENV NODE_ENV docker
+
 # Define default command.
 CMD ["npm", "start"]
 

@@ -12,22 +12,17 @@ echo -e "\n *** Preparing Docker environment"
 rm -Rf ${DIST_DIR}
 mkdir -p ${DIST_DOCKER_DIR}
 
+cp -R -t ${DIST_DOCKER_DIR} \
+  ./lib \
+  ./Dockerfile \
+  ./index.js \
+  ./package.json \
+  ./scripts/docker-start.sh \
+  ./scripts/docker-stop.sh \
 
-cp -R ./lib ${DIST_DOCKER_DIR}
-
-if [ "$1" != "aws" ]; then
-  mv ${DIST_DOCKER_DIR}/lib/configDocker.js ${DIST_DOCKER_DIR}/lib/config.js
-  rm -f ${DIST_DOCKER_DIR}/lib/configAws.js
-else
-  mv ${DIST_DOCKER_DIR}/lib/configAws.js ${DIST_DOCKER_DIR}/lib/config.js
-  rm -f ${DIST_DOCKER_DIR}/lib/configDocker.js
+if [ "$1" == "aws" ]; then
+  ./node_modules/.bin/replace -s 'ENV NODE_ENV docker' 'ENV NODE_ENV aws' ${DIST_DOCKER_DIR}/Dockerfile
 fi
-
-cp ./Dockerfile ${DIST_DOCKER_DIR}
-cp ./index.js ${DIST_DOCKER_DIR}
-cp ./package.json ${DIST_DOCKER_DIR}
-cp ./scripts/docker-start.sh ${DIST_DOCKER_DIR}
-cp ./scripts/docker-stop.sh ${DIST_DOCKER_DIR}
 
 cd ${DIST_DOCKER_DIR}
 zip -qr noderest-docker.zip *
