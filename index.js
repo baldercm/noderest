@@ -1,8 +1,11 @@
 'use strict'
 
-require('coffee-script/register')
-
 var noderest = require('./lib/core')
 
-noderest.database.bootstrap()
-noderest.app.bootstrap()
+noderest.bootstrap()
+
+process.on('SIGINT', function() {
+  noderest.shutdown(function () {
+    process.exit(0)
+  })
+})

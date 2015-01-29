@@ -40,7 +40,8 @@ errorStream =
     logger.error(message)
     return
 
-module.exports.logger = logger
-module.exports.infoStream = infoStream
-module.exports.debugStream = debugStream
-module.exports.errorStream = errorStream
+module.exports.logger       = logger
+module.exports.debugStream  = debugStream
+module.exports.infoStream   = infoStream
+module.exports.warnStream   = warnStream
+module.exports.errorStream  = errorStream
