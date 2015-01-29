@@ -40,7 +40,7 @@
     "start": "node index.js",
     "prestartdev": "npm test",
     "startdev": "NODE_ENV=dev node index.js",
-    "dev": "nodemon --exec 'npm run startdev'",
+    "dev": "nodemon --exec npm run startdev",
     "prebuild-docker": "npm test",
     "build-docker": "scripts/docker-build.sh",
     "build-aws": "npm run build-docker -- aws"
