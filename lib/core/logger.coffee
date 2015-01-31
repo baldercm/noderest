@@ -1,47 +1,27 @@
 winston = require 'winston'
 config  = require './config'
 
-logger = new winston.Logger(
-  transports: [
-    new winston.transports.File(
-      level: 'debug'
-      filename: 'noderest.log'
-      handleExceptions: true
-      json: true
-      maxsize: 5242880 #5MB
-      maxFiles: 5
-      colorize: false
-    )
-    new winston.transports.Console(
-      level: config.consoleLogLevel
-      colorize: true
-      handleExceptions: true
-    )
-  ]
+mainLogger = winston.loggers.add('main-logger',
+  file:
+    level: 'info'
+    filename: 'noderest.log'
+    json: false
+    maxsize: 5242880 #5MB
+    maxFiles: 5
+    handleExceptions: true
+  console:
+    level: config.consoleLogLevel
 )
 
-debugStream =
-  writes: (message) ->
-    logger.debug(message)
-    return
+httpAccessLogger = winston.loggers.add('http-access-logger',
+  console:
+    level: config.consoleLogLevel
+)
 
-infoStream =
+httpAccessStream =
   write: (message) ->
-    logger.info(message)
+    httpAccessLogger.info(message)
     return
 
-warnStream =
-  write: (message) ->
-    logger.warn(message)
-    return
-
-errorStream =
-  write: (message) ->
-    logger.error(message)
-    return
-
-module.exports.logger       = logger
-module.exports.debugStream  = debugStream
-module.exports.infoStream   = infoStream
-module.exports.warnStream   = warnStream
-module.exports.errorStream  = errorStream
+module.exports.logger = mainLogger
+module.exports.httpAccessStream = httpAccessStream
