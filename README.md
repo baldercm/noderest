@@ -1,6 +1,6 @@
 # NodeRest
-[![Build Status](https://travis-ci.org/balder-otium360/noderest.svg?branch=master)](https://travis-ci.org/balder-otium360/noderest)
-[![Coverage Status](https://coveralls.io/repos/balder-otium360/noderest/badge.svg?branch=master)](https://coveralls.io/r/balder-otium360/noderest?branch=master)
+[![Build Status](https://travis-ci.org/balder-otium360/noderest.svg?branch=develop)](https://travis-ci.org/balder-otium360/noderest)
+[![Coverage Status](https://coveralls.io/repos/balder-otium360/noderest/badge.svg?branch=develop)](https://coveralls.io/r/balder-otium360/noderest?branch=develop)
 
 NodeJS simple prototype for REST like backend using:
 + Express
