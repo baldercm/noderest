@@ -1,3 +1,9 @@
 instrumentation:
   include-all-sources: true
-  excludes: ["index.js", "**/dist/**", "**/scripts/**"]
+  excludes:
+    - "index.js"
+    - "config.js"
+    - "database.js"
+    - "server.js"
+    - "**/dist/**"
+    - "**/scripts/**"
