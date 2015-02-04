@@ -1,5 +1,6 @@
 'use strict'
 
+var _ = require('underscore')
 var chai = require('chai')
 var expect = chai.expect
 
@@ -16,14 +17,16 @@ describe('Place e2e', function() {
     Place.create(
       { name: 'Place 1', location: [40.00, 30.00] },
       { name: 'Place 2', location: [40.00, 30.00] },
-      { name: 'Place 3', location: [55.00, 55.00] },
-      function(err, place1, place2, place3) {
+      { name: 'Place 3', location: [40.00, 30.00] },
+      { name: 'Place 4', location: [55.00, 55.00] },
+      function(err, place1, place2, place3, place4) {
         if (err) {
           throw err
         } else {
           places.push(place1)
           places.push(place2)
           places.push(place3)
+          places.push(place4)
 
           done()
         }
@@ -80,7 +83,7 @@ describe('Place e2e', function() {
             expect(res.status).to.equal(200)
             expect(res.type).to.match(/json/)
             expect(res.body).to.be.instanceof(Array)
-            expect(res.body.length).to.equal(3)
+            expect(res.body.length).to.equal(4)
           })
           .end(done)
       })
@@ -100,7 +103,11 @@ describe('Place e2e', function() {
             expect(res.status).to.equal(200)
             expect(res.type).to.match(/json/)
             expect(res.body).to.be.instanceof(Array)
-            expect(res.body.length).to.equal(2)
+            expect(res.body.length).to.equal(3)
+
+            var placeNames = _.pluck(res.body, 'name')
+            expect(placeNames).to.include.members(['Place 1', 'Place 2', 'Place 3'])
+            expect(placeNames).not.to.include.members(['Place 4'])
           })
           .end(done)
       })
