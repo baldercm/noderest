@@ -3,8 +3,9 @@
 [![Coverage Status](https://coveralls.io/repos/balder-otium360/noderest/badge.svg?branch=develop)](https://coveralls.io/r/balder-otium360/noderest?branch=develop)
 
 NodeJS simple prototype for REST like backend using:
-+ Express
-+ Mongoose
+* Express
+  + Passport
+* Mongoose
 
 ## Overview
 
@@ -75,16 +76,7 @@ To stop and remove all Docker containers and images use
 
 All the resource URIs consumes and produces `application/json`.
 
-* `GET  http://localhost:8080/contacts` find all the existing contacts
-* `GET  http://localhost:8080/contacts/:id` find contact by id
-* `POST http://localhost:8080/contacs` creates a new contact
-  -  JSON Body:
-
-      ```json
-      {
-        "name": "Name",
-        "age": "1"
-      }
-      ```
-
-
+* `GET  http://localhost:8080/places` find all the existing places
+* `GET  http://localhost:8080/places?latitude=&longitude=` find all places around given coordinates
+* `GET  http://localhost:8080/places/:id` find place by id
+* `GET  http://localhost:8080/customers/me` find my user profile (requires BASIC authentication)
