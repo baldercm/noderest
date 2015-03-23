@@ -13,37 +13,37 @@ describe 'Authentication e2e', ->
   user = undefined
   customer = undefined
 
-  before (done) ->
-    createUser = ->
-      salt = bcrypt.genSaltSync 10
-      hash = bcrypt.hashSync 'secret', salt
+  createUser = ->
+    salt = bcrypt.genSaltSync 10
+    hash = bcrypt.hashSync 'secret', salt
 
-      Q.ninvoke(User, 'create', {
-        email: 'noderest@email.com'
-        password: hash
-      }).then (_user) ->
-        user = _user
+    Q.ninvoke(User, 'create', {
+      email: 'noderest@email.com'
+      password: hash
+    }).then (_user) ->
+      user = _user
 
-    createCustomer = ->
-      Q.ninvoke(Customer, 'create', {
-        email: user.email
-        alias: 'noderest'
-        userId: user._id
-      }).then (_customer) ->
-        customer = _customer
+  createCustomer = ->
+    Q.ninvoke(Customer, 'create', {
+      email: user.email
+      alias: 'noderest'
+      userId: user._id
+    }).then (_customer) ->
+      customer = _customer
 
+  removeUser = ->
+    Q.ninvoke(User, 'remove', {})
+
+  removeCustomer = ->
+    Q.ninvoke(Customer, 'remove', {})
+
+  beforeEach (done) ->
     createUser()
     .then(createCustomer)
     .done ->
       done()
 
-  after (done) ->
-    removeUser = ->
-      Q.ninvoke(User, 'remove', {})
-
-    removeCustomer = ->
-      Q.ninvoke(Customer, 'remove', {})
-
+  afterEach (done) ->
     removeUser()
     .then(removeCustomer)
     .done ->
@@ -78,7 +78,25 @@ describe 'Authentication e2e', ->
         .expect 401
         .end done
 
-  describe 'valid credentials requests', ->
+  describe 'valid credentials no customer', (done) ->
+    agent = supertest.agent app
+
+    beforeEach (done) ->
+      removeCustomer()
+      .done ->
+        done()
+
+    it 'should get 204', (done) ->
+      agent
+      .get '/customers/me'
+      .auth 'noderest@email.com', 'secret'
+      .expect (res) ->
+        expect(res.status).to.equal 204
+        expect(res.type).to.equal ''
+        return
+      .end done
+
+  describe 'valid credentials', ->
     agent = supertest.agent app
 
     it 'should get 200', (done) ->
