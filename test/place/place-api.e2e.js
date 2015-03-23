@@ -15,7 +15,7 @@ describe('Place e2e', function() {
 
   before(function(done) {
     Place.create(
-      { name: 'Place 1', location: [40.00, 30.00] },
+      { name: 'Place 1', location: [40.00, 30.00], beaconDevice:{majorId: '1234', minorIds: ['1234', '5678']} },
       { name: 'Place 2', location: [40.00, 30.00] },
       { name: 'Place 3', location: [40.00, 30.00] },
       { name: 'Place 4', location: [55.00, 55.00] },
@@ -122,6 +122,46 @@ describe('Place e2e', function() {
           .expect(function(res) {
             expect(res.status).to.equal(400)
             expect(res.type).to.match(/json/)
+          })
+          .end(done)
+      })
+    })
+  })
+
+  describe('/places?beaconMajorId=1234', function() {
+    var agent = supertest.agent(app)
+
+    describe('on valid query', function() {
+      it('should get the place with the beacon majorId', function(done) {
+        agent
+          .get('/places?beaconMajorId=1234')
+          .auth('noderest', 'secret')
+          .accept('application/json')
+          .expect(function(res) {
+            expect(res.status).to.equal(200)
+            expect(res.type).to.match(/json/)
+            expect(res.body).to.be.instanceof(Array)
+            expect(res.body.length).to.equal(1)
+
+            var placeNames = _.pluck(res.body, 'name')
+            expect(placeNames).to.include.members(['Place 1'])
+            expect(placeNames).not.to.include.members(['Place 2', 'Place 3', 'Place 4'])
+          })
+          .end(done)
+      })
+    })
+
+    describe('on wrong majorId', function() {
+      it('should get an empty array', function(done) {
+        agent
+          .get('/places?beaconMajorId=invalid')
+          .auth('noderest', 'secret')
+          .accept('application/json')
+          .expect(function(res) {
+            expect(res.status).to.equal(200)
+            expect(res.type).to.match(/json/)
+            expect(res.body).to.be.instanceof(Array)
+            expect(res.body.length).to.equal(0)
           })
           .end(done)
       })
