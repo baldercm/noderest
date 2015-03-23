@@ -58,6 +58,16 @@ describe 'Authentication e2e', ->
         .expect 401
         .end done
 
+  describe 'invalid username requests', ->
+    agent = supertest.agent app
+
+    it 'should get 401', (done) ->
+      agent
+      .get '/customers/me'
+      .auth 'wronguser@email.com', 'wrongpassword'
+      .expect 401
+      .end done
+
   describe 'invalid credentials requests', ->
     agent = supertest.agent app
 
