@@ -1,7 +1,9 @@
+'use strict'
+
 winston = require 'winston'
 config  = require './config'
 
-mainLogger = winston.loggers.add('main-logger',
+mainLogger = winston.loggers.add 'main-logger',
   file:
     level: 'info'
     filename: 'noderest.log'
@@ -12,16 +14,14 @@ mainLogger = winston.loggers.add('main-logger',
   console:
     level: config.consoleLogLevel
     handleExceptions: true
-)
 
-httpAccessLogger = winston.loggers.add('http-access-logger',
+httpAccessLogger = winston.loggers.add 'http-access-logger',
   console:
     level: config.consoleLogLevel
-)
 
 httpAccessStream =
   write: (message) ->
-    httpAccessLogger.info(message)
+    httpAccessLogger.info message
     return
 
 module.exports.logger = mainLogger
