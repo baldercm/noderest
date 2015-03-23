@@ -15,7 +15,27 @@ describe('Place e2e', function() {
 
   before(function(done) {
     Place.create(
-      { name: 'Place 1', location: [40.00, 30.00], beaconDevice:{majorId: '1234', minorIds: ['1234', '5678']} },
+      {
+        name : 'Place 1',
+        location: [40.00, 30.00],
+        placePhotos : [
+          {
+            thumbnails : [
+              {
+                imageURL : 'anyValidUrl',
+                thumbnailSize : 'SMALL'
+              }
+            ],
+            imageURL : 'anyValidUrl',
+            imageFileIdentifier : 'imageFileId',
+            name : 'MAIN'
+          }
+        ],
+        beaconDevice : {
+          majorId : '1234',
+          minorId : '2345'
+        }
+      },
       { name: 'Place 2', location: [40.00, 30.00] },
       { name: 'Place 3', location: [40.00, 30.00] },
       { name: 'Place 4', location: [55.00, 55.00] },
