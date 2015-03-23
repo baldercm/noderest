@@ -11,6 +11,7 @@ mainLogger = winston.loggers.add('main-logger',
     handleExceptions: true
   console:
     level: config.consoleLogLevel
+    handleExceptions: true
 )
 
 httpAccessLogger = winston.loggers.add('http-access-logger',
