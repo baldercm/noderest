@@ -1,5 +1,5 @@
 # Pull base image.
-FROM dockerfile/nodejs
+FROM node:0.12
 
 MAINTAINER Bálder Carraté <baldercm@gmail.com>
 
