@@ -20,6 +20,7 @@ describe 'Authentication e2e', ->
     Q.ninvoke(User, 'create', {
       email: 'noderest@email.com'
       password: hash
+      roles: ['ROLE_USER']
     }).then (_user) ->
       user = _user
 
