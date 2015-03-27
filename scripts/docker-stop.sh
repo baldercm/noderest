@@ -7,7 +7,7 @@ if `docker ps | grep -q 'noderest'` ; then
 fi
 if `docker ps -a | grep -q 'noderest'` ; then
   echo -e "\n *** Removing noderest Docker containers"
-  docker rm -f noderest
+  docker rm -vf noderest
 fi
 if `docker images | grep -q 'noderest'` ; then
   echo -e "\n *** Removing noderest Docker images"
@@ -19,7 +19,7 @@ if `docker ps | grep -q 'mongodb'` ; then
 fi
 if `docker ps -a | grep -q 'mongodb'` ; then
   echo -e "\n *** Removing mongodb Docker containers"
-  docker rm -f mongodb
+  docker rm -vf mongodb
 fi
 
 echo "" && exit 0
