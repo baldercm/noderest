@@ -1,6 +1,7 @@
 # NodeRest
 [![Build Status](https://travis-ci.org/baldercm/noderest.svg?branch=develop)](https://travis-ci.org/baldercm/noderest)
 [![Coverage Status](https://coveralls.io/repos/baldercm/noderest/badge.svg?branch=develop)](https://coveralls.io/r/baldercm/noderest?branch=develop)
+[![NPM Dependencies Status](https://david-dm.org/baldercm/noderest.svg)](https://david-dm.org/baldercm/noderest)
 
 NodeJS simple prototype for REST like backend using:
 * Express
