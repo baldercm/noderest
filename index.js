@@ -4,7 +4,7 @@ var noderest = require('./lib/core')
 
 noderest.bootstrap()
 
-var shutdown = function () {
+function shutdown() {
   noderest.shutdown(function () {
     process.exit(0)
   })

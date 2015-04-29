@@ -11,10 +11,6 @@ describe 'Promise Coffee', ->
 
   beforeEach ->
     promise = Q 'promised value'
-    return
 
   it 'should resolve', ->
     expect(promise).to.become 'promised value'
-    return
-
-  return
