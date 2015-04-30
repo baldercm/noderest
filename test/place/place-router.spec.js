@@ -9,14 +9,17 @@ chai.use(sinonChai)
 var proxyquire = require('proxyquire')
 
 describe('Place Router', function() {
-  var placeApi = {}
+  var placeApiV1 = {}
+  var placeApi = {
+    v1: placeApiV1
+  }
   var server = {}
 
   before(function() {
     server.get = sinon.spy()
 
-    placeApi.findById = sinon.spy()
-    placeApi.find = sinon.spy()
+    placeApiV1.findById = sinon.spy()
+    placeApiV1.find = sinon.spy()
 
     var placeRouter = proxyquire('../../lib/place/place-router', {
       './place-api': placeApi
@@ -26,13 +29,13 @@ describe('Place Router', function() {
 
   describe('GET /', function() {
     it('should define route', function() {
-      expect(server.get).to.have.been.calledWith('/places', placeApi.find)
+      expect(server.get).to.have.been.calledWith({path: '/places', version: '1.0.0'}, placeApiV1.find)
     })
   })
 
   describe('GET /:id', function() {
     it('should define route', function() {
-      expect(server.get).to.have.been.calledWith('/places/:id', placeApi.findById)
+      expect(server.get).to.have.been.calledWith({path: '/places/:id', version: '1.0.0'}, placeApiV1.findById)
     })
   })
 
