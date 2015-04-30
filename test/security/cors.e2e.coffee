@@ -1,55 +1,67 @@
 'use strict'
 
 supertest = require('supertest')
-app = require('../../lib/core/server').app
+server = require('../../lib/core/server').server
 
 describe 'Cors e2e', ->
 
-  app.get '/cors', (req, res) ->
-    res.sendStatus(200)
+  server.get '/cors', (req, res) ->
+    res.send('ok')
 
   describe 'preflight requests', ->
-    agent = supertest.agent app
 
     it 'should set header Access-Control-Allow-Origin', (done) ->
-      agent
+      supertest(server)
         .options '/cors'
         .set 'Origin', 'http://e2e.noderest.org'
+        .set 'Access-Control-Request-Method', 'GET'
+        .expect 200
         .expect 'Access-Control-Allow-Origin', 'http://e2e.noderest.org'
         .end done
 
     it 'should set header Access-Control-Allow-Methods', (done) ->
-      agent
+      supertest(server)
         .options '/cors'
-        .expect 'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, HEAD, OPTIONS'
+        .set 'Origin', 'http://e2e.noderest.org'
+        .set 'Access-Control-Request-Method', 'GET'
+        .expect 200
+        .expect 'Access-Control-Allow-Methods', 'GET'
         .end done
 
     it 'should set header Access-Control-Allow-Headers', (done) ->
-      agent
+      supertest(server)
         .options '/cors'
-        .expect 'Access-Control-Allow-Headers', 'Authorization, X-Requested-With, Origin, Fbtoken, Content-Type, Accept'
+        .set 'Origin', 'http://e2e.noderest.org'
+        .set 'Access-Control-Request-Method', 'GET'
+        .expect 200
+        .expect 'Access-Control-Allow-Headers',
+          'accept, accept-version, content-type, request-id, origin, x-api-version, x-request-id, authorization, x-requested-with, fbtoken'
         .end done
 
     it 'should set header Access-Control-Allow-Credentials', (done) ->
-      agent
+      supertest(server)
         .options '/cors'
+        .set 'Origin', 'http://e2e.noderest.org'
+        .set 'Access-Control-Request-Method', 'GET'
+        .expect 200
         .expect 'Access-Control-Allow-Credentials', 'true'
         .end done
 
   describe 'standard requests', ->
-    agent = supertest.agent app
-
     it 'should set header Access-Control-Allow-Origin', (done) ->
-      agent
+      supertest(server)
         .get '/cors'
         .auth 'noderest', 'secret'
         .set 'Origin', 'http://e2e.noderest.org'
+        .expect 200
         .expect 'Access-Control-Allow-Origin', 'http://e2e.noderest.org'
         .end done
 
     it 'should set header Access-Control-Allow-Credentials', (done) ->
-      agent
+      supertest(server)
         .get '/cors'
         .auth 'noderest', 'secret'
+        .set 'Origin', 'http://e2e.noderest.org'
+        .expect 200
         .expect 'Access-Control-Allow-Credentials', 'true'
         .end done

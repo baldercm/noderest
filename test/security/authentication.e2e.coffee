@@ -4,7 +4,7 @@ Q = require('q')
 chai = require('chai')
 expect = chai.expect
 supertest = require('supertest')
-app = require('../../lib/core/server').app
+server = require('../../lib/core/server').server
 bcrypt = require('bcrypt')
 User = require('../../lib/core/security/user-model').User
 Customer = require('../../lib/customer/customer-model').Customer
@@ -51,44 +51,36 @@ describe 'Authentication e2e', ->
       done()
 
   describe 'unauthenticaded requests', ->
-    agent = supertest.agent app
-
     it 'should get 401', (done) ->
-      agent
+      supertest(server)
         .get '/customers/me'
         .expect 401
         .end done
 
   describe 'invalid username requests', ->
-    agent = supertest.agent app
-
     it 'should get 401', (done) ->
-      agent
+      supertest(server)
       .get '/customers/me'
       .auth 'wronguser@email.com', 'wrongpassword'
       .expect 401
       .end done
 
   describe 'invalid credentials requests', ->
-    agent = supertest.agent app
-
     it 'should get 401', (done) ->
-      agent
+      supertest(server)
         .get '/customers/me'
         .auth 'noderest@email.com', 'wrongpassword'
         .expect 401
         .end done
 
   describe 'valid credentials no customer', (done) ->
-    agent = supertest.agent app
-
     beforeEach (done) ->
       removeCustomer()
       .done ->
         done()
 
     it 'should get 204', (done) ->
-      agent
+      supertest(server)
       .get '/customers/me'
       .auth 'noderest@email.com', 'secret'
       .expect (res) ->
@@ -98,10 +90,8 @@ describe 'Authentication e2e', ->
       .end done
 
   describe 'valid credentials', ->
-    agent = supertest.agent app
-
     it 'should get 200', (done) ->
-      agent
+      supertest(server)
         .get '/customers/me'
         .auth 'noderest@email.com', 'secret'
         .expect (res) ->

@@ -10,32 +10,29 @@ var proxyquire = require('proxyquire')
 
 describe('Place Router', function() {
   var placeApi = {}
-  var router = {}
+  var server = {}
 
   before(function() {
-    router.get = sinon.spy()
-    router.post = sinon.spy()
+    server.get = sinon.spy()
 
     placeApi.findById = sinon.spy()
     placeApi.find = sinon.spy()
 
-    proxyquire('../../lib/place/place-router', {
-      'express': {
-        Router: sinon.stub().returns(router)
-      },
+    var placeRouter = proxyquire('../../lib/place/place-router', {
       './place-api': placeApi
     })
+    placeRouter(server)
   })
 
   describe('GET /', function() {
     it('should define route', function() {
-      expect(router.get).to.have.been.calledWith('/', placeApi.find)
+      expect(server.get).to.have.been.calledWith('/places', placeApi.find)
     })
   })
 
   describe('GET /:id', function() {
     it('should define route', function() {
-      expect(router.get).to.have.been.calledWith('/:id', placeApi.findById)
+      expect(server.get).to.have.been.calledWith('/places/:id', placeApi.findById)
     })
   })
 

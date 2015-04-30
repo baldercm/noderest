@@ -6,7 +6,7 @@ var expect = chai.expect
 
 var supertest = require('supertest')
 
-var app = require('../../lib/core/server').app
+var server = require('../../lib/core/server').server
 
 var Place = require('../../lib/place/place-model').Place
 
@@ -55,14 +55,13 @@ describe('Place e2e', function() {
   })
 
   describe('/places/:id', function() {
-    var agent = supertest.agent(app)
-
     describe('on valid id', function() {
       it('should get the place', function(done) {
         var place = places[0]
 
-        agent
+        supertest(server)
           .get('/places/' + place.id)
+          .set('Accept-Version', '1.0.0')
           .auth('noderest', 'secret')
           .accept('application/json')
           .expect(function(res) {
@@ -77,12 +76,12 @@ describe('Place e2e', function() {
 
     describe('on wrong id', function() {
       it('should get an error', function(done) {
-        agent
+        supertest(server)
           .get('/places/anyWrongId')
           .auth('noderest', 'secret')
           .accept('application/json')
           .expect(function(res) {
-            expect(res.status).to.equal(400)
+            expect(res.status).to.equal(500)
             expect(res.type).to.match(/json/)
           })
           .end(done)
@@ -91,11 +90,9 @@ describe('Place e2e', function() {
   })
 
   describe('/places', function() {
-    var agent = supertest.agent(app)
-
     describe('on empty query', function() {
       it('should get all places', function(done) {
-        agent
+        supertest(server)
           .get('/places')
           .auth('noderest', 'secret')
           .accept('application/json')
@@ -111,11 +108,9 @@ describe('Place e2e', function() {
   })
 
   describe('/places?latitude=1.23&longitude=2.34', function() {
-    var agent = supertest.agent(app)
-
     describe('on valid query', function() {
       it('should get geonear places', function(done) {
-        agent
+        supertest(server)
           .get('/places?latitude=40.00&longitude=30.00')
           .auth('noderest', 'secret')
           .accept('application/json')
@@ -135,12 +130,12 @@ describe('Place e2e', function() {
 
     describe('on invalid query', function() {
       it('should get an error', function(done) {
-        agent
+        supertest(server)
           .get('/places?latitude=invalid&longitude=invalid')
           .auth('noderest', 'secret')
           .accept('application/json')
           .expect(function(res) {
-            expect(res.status).to.equal(400)
+            expect(res.status).to.equal(500)
             expect(res.type).to.match(/json/)
           })
           .end(done)
@@ -149,11 +144,9 @@ describe('Place e2e', function() {
   })
 
   describe('/places?beaconMajorId=1234', function() {
-    var agent = supertest.agent(app)
-
     describe('on valid query', function() {
       it('should get the place with the beacon majorId', function(done) {
-        agent
+        supertest(server)
           .get('/places?beaconMajorId=1234')
           .auth('noderest', 'secret')
           .accept('application/json')
@@ -173,7 +166,7 @@ describe('Place e2e', function() {
 
     describe('on wrong majorId', function() {
       it('should get an empty array', function(done) {
-        agent
+        supertest(server)
           .get('/places?beaconMajorId=invalid')
           .auth('noderest', 'secret')
           .accept('application/json')
