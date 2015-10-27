@@ -17,7 +17,7 @@ describe('Place e2e', function() {
     Place.create(
       {
         name : 'Place 1',
-        location: [40.00, 30.00],
+        location: [40.000001, 30.000001],
         placePhotos : [
           {
             thumbnails : [
